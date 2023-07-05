@@ -1,4 +1,4 @@
-import { CallbackType, Config, FRAuth, FRStep, NameCallback, PasswordCallback, TokenManager } from '@forgerock/javascript-sdk';
+import { CallbackType, Config, FRAuth, FRStep, NameCallback, PasswordCallback, SessionManager, TokenManager } from '@forgerock/javascript-sdk';
 import { client } from '@forgerock/token-vault';
 
 const el = document.getElementById('token-vault-proxy') as HTMLElement
@@ -50,9 +50,13 @@ Config.set({
     remove: tokenStore.remove,
   },
 });
-
-const step = await FRAuth.start();
-console.log(step);
+let step = await FRAuth.start();
+if (step.type === 'LoginSuccess') {
+  await SessionManager.logout();
+  console.log('logged out!')
+  step = await FRAuth.next();
+  console.log(step.type);
+}
 
 document.getElementById('login-automagically')?.addEventListener('click', async () => {
   const { hasTokens } = await tokenStore.has();
@@ -76,6 +80,13 @@ document.getElementById('login-automagically')?.addEventListener('click', async 
   const pw = (step as FRStep).getCallbacksOfType(CallbackType.PasswordCallback)[0] as PasswordCallback
   pw.setPassword(password);
   const loginStep = await FRAuth.next(step as FRStep);
+
+  try {
+    await TokenManager.getTokens({});
+  } catch (e) {
+    console.log(e)
+  }
+
   if ('getSuccessUrl' in loginStep) {
       console.log('logged in')
       const el = document.getElementById('login-automagically')
