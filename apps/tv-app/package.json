@@ -1,0 +1,20 @@
+{
+  "name": "@ryan/tv-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc && vite build",
+    "dev": "vite --port 8000",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@forgerock/javascript-sdk": "^4.1.1",
+    "@forgerock/token-vault": "^4.1.1-beta.1"
+  },
+  "devDependencies": {
+    "vite": "^4.3.9"
+  },
+  "author": "ryan",
+  "license": "ISC"
+}

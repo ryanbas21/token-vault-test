@@ -1,0 +1,17 @@
+{
+  "name": "@ryan/proxy-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc && vite build",
+    "dev": "vite",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^4.3.9"
+  },
+  "dependencies": {
+    "@forgerock/token-vault": "^4.1.1-beta.1"
+  }
+}
